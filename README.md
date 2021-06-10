@@ -7,3 +7,7 @@ Menggunakan :
 - python3
 - mininet
 - [quagga](https://www.quagga.net/)
+
+## Topologi
+
+![Topologi](https://github.com/krobus00/Tubes-JARKOM/blob/master/images/topologi.png?raw=true)
