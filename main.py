@@ -49,24 +49,30 @@ class NetworkTopo(Topo):
         # router - router
         # 20, 40, 60 dan 100
         max_size = 20
-        self.addLink(r1, r3, cls=TCLink, max_queue_size=max_size, intfName1='r1-eth1', intfName2='r3-eth1',
-                     params1={'ip': '192.168.1.1/24'}, params2={'ip': '192.168.1.2/24'}, bw=0.5)
-        self.addLink(r1, r4, cls=TCLink, max_queue_size=max_size, intfName1='r1-eth2', intfName2='r4-eth1',
-                     params1={'ip': '192.168.2.1/24'}, params2={'ip': '192.168.2.2/24'}, bw=1)
-        self.addLink(r2, r4, cls=TCLink, max_queue_size=max_size, intfName1='r2-eth1', intfName2='r4-eth2',
-                     params1={'ip': '192.168.3.1/24'}, params2={'ip': '192.168.3.2/24'}, bw=0.5)
-        self.addLink(r2, r3, cls=TCLink, max_queue_size=max_size, intfName1='r2-eth2', intfName2='r3-eth2',
-                     params1={'ip': '192.168.4.1/24'}, params2={'ip': '192.168.4.2/24'}, bw=1)
-        # router - host
-        self.addLink(ha, r1, cls=TCLink, max_queue_size=max_size, intfName2='r1-eth3',
-                     params1={'ip': '192.168.10.2/24'}, params2={'ip': '192.168.10.1/24'}, bw=1)
-        self.addLink(ha, r2, cls=TCLink, max_queue_size=max_size, intfName2='r2-eth3',
-                     params1={'ip': '192.168.11.2/24'}, params2={'ip': '192.168.11.1/24'}, bw=1)
+        delay = 1
+        linkopts0 = dict(bw=0.5, delay='{}ms'.format(delay), loss=0,
+                         max_queue_size=max_size, use_tbf=True)
+        linkopts1 = dict(bw=1, delay='{}ms'.format(delay), loss=0,
+                         max_queue_size=max_size, use_tbf=True)
 
-        self.addLink(hb, r3, cls=TCLink, max_queue_size=max_size, intfName2='r3-eth3',
-                     params1={'ip': '192.168.17.2/24'}, params2={'ip': '192.168.17.1/24'}, bw=1)
-        self.addLink(hb, r4, cls=TCLink, max_queue_size=max_size, intfName2='r4-eth3',
-                     params1={'ip': '192.168.18.2/24'}, params2={'ip': '192.168.18.1/24'}, bw=1)
+        self.addLink(r1, r3, cls=TCLink, **linkopts0, intfName1='r1-eth1', intfName2='r3-eth1',
+                     params1={'ip': '192.168.1.1/24'}, params2={'ip': '192.168.1.2/24'})
+        self.addLink(r1, r4, cls=TCLink, **linkopts1, intfName1='r1-eth2', intfName2='r4-eth1',
+                     params1={'ip': '192.168.2.1/24'}, params2={'ip': '192.168.2.2/24'})
+        self.addLink(r2, r4, cls=TCLink, **linkopts0, intfName1='r2-eth1', intfName2='r4-eth2',
+                     params1={'ip': '192.168.3.1/24'}, params2={'ip': '192.168.3.2/24'})
+        self.addLink(r2, r3, cls=TCLink, **linkopts1, intfName1='r2-eth2', intfName2='r3-eth2',
+                     params1={'ip': '192.168.4.1/24'}, params2={'ip': '192.168.4.2/24'})
+        # router - host
+        self.addLink(ha, r1, cls=TCLink, **linkopts1,  intfName2='r1-eth3',
+                     params1={'ip': '192.168.10.2/24'}, params2={'ip': '192.168.10.1/24'})
+        self.addLink(ha, r2, cls=TCLink, **linkopts1, intfName2='r2-eth3',
+                     params1={'ip': '192.168.11.2/24'}, params2={'ip': '192.168.11.1/24'})
+
+        self.addLink(hb, r3, cls=TCLink, **linkopts1, intfName2='r3-eth3',
+                     params1={'ip': '192.168.17.2/24'}, params2={'ip': '192.168.17.1/24'})
+        self.addLink(hb, r4, cls=TCLink, **linkopts1, intfName2='r4-eth3',
+                     params1={'ip': '192.168.18.2/24'}, params2={'ip': '192.168.18.1/24'})
 
 
 def run():
