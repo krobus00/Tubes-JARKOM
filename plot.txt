@@ -1,0 +1,8 @@
+plot "results/20.log" title "buffer 20" with linespoint, "results/40.log" title "buffer 40" with linespoint, "results/60.log" title "buffer 60" with linespoint, "results/100.log" title "buffer 100" with linespoint
+
+
+
+plot "results/mptcp20.log" title "buffer 20" with linespoint, "results/mptcp40.log" title "buffer 40" with linespoint, "results/mptcp60.log" title "buffer 60" with linespoint, "results/mptcp100.log" title "buffer 100" with linespoint
+plot "results/tcp20.log" title "buffer 20" with linespoint, "results/tcp40.log" title "buffer 40" with linespoint, "results/tcp60.log" title "buffer 60" with linespoint, "results/tcp100.log" title "buffer 100" with linespoint
+plot "results/tanpabuffertcp.log" title "TCP" with linespoint, "results/tanpabuffermptcp.log" title "MPTCP" with linespoint
+plot "qlen.txt" title "Queue Length" with linespoint
